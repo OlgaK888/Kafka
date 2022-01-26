@@ -1,14 +1,17 @@
 package com.example.config;
 
 import com.example.dto.UserDTO;
-import com.fasterxml.jackson.databind.JsonSerializer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongSerializer;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +19,11 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    /*private String kafkaServer="localhost:9092";
+    @Value("${spring.kafka.producer.bootstrap-servers}")
+    private String kafkaServer;
 
+    //@Value("${kafka.group.id}")
+    //private String kafkaGroupId;
 
     @Bean
     public Map<String, Object> producerConfigs() {
@@ -28,6 +34,8 @@ public class KafkaProducerConfig {
                 LongSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
                 JsonSerializer.class);
+        //props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
+        //props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroupId);
         return props;
     }
 
@@ -39,5 +47,10 @@ public class KafkaProducerConfig {
     @Bean
     public KafkaTemplate<Long, UserDTO> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
+    }
+
+    /*@Bean
+    public SimpleMailMessage getSimpleMailMessage(){
+        return new SimpleMailMessage();
     }*/
 }
