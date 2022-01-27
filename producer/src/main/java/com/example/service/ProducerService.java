@@ -23,7 +23,7 @@ public class ProducerService {
     }*/
 
     public void produce(@RequestBody UserDTO userDTO) {
-        ListenableFuture<SendResult<Long, UserDTO>> future = kafkaTemplate2.send("messages", 1L, userDTO);
+        ListenableFuture<SendResult<Long, UserDTO>> future = kafkaTemplate2.send("messages1", 1L, userDTO);
         future.addCallback(System.out::println, System.err::println);
         kafkaTemplate2.flush();
     }
